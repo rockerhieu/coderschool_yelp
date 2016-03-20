@@ -27,13 +27,29 @@ class Categories {
 }
 
 class DistanceFilter {
-    var distance: Double = 0.0 {
-        didSet {
-            if distance == 0 {
-                text = "Auto"
-            }
-            text =  "\(distance) miles"
+    var distance = 0.0
+    var distanceInMeters: Double {
+        get {
+            return distance * 1609.34
         }
     }
-    var text: String!
+    var text: String {
+        get {
+            if distance == 0.0 {
+                return "Auto"
+            }
+            if (distance == 1) {
+                return "1 mile"
+            }
+            if (distance % 1 == 0) {
+                return "\(Int(distance)) miles"
+            } else {
+                return "\(distance) miles"
+            }
+        }
+    }
+    
+    init(distance: Double) {
+        self.distance = distance
+    }
 }

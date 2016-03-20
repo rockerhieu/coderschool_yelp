@@ -17,6 +17,7 @@ class FiltersViewController: UIViewController {
     var categories: Categories!
     var isSortByExpanded = false
     var isDistanceExpanded = false
+    var distanceFilters = [DistanceFilter(distance: 0), DistanceFilter(distance: 0.3), DistanceFilter(distance: 1), DistanceFilter(distance: 5), DistanceFilter(distance: 20)]
 
     override func viewDidLoad() {
         setupData()
@@ -72,7 +73,7 @@ class FiltersViewController: UIViewController {
                 Category(name: "Food Stands", code: "foodstands", checked: false),
                 Category(name: "Vietnamese", code: "vietnamese", checked: false)
             ]
-            filters?["Distance"] = 0
+            filters?["Distance"] = distanceFilters[0]
             filters?["Category"] = Categories(data: categories)
             filters?["Sort By"] = YelpSortMode.Distance.rawValue
             filters?["Offering a Deal"] = false
@@ -124,36 +125,14 @@ extension FiltersViewController: UITableViewDataSource, UITableViewDelegate, Swi
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("RadioCell", forIndexPath: indexPath) as! RadioCell
-            let sortBy = filters?["Sort By"] as! Int
-            let sortByMode = YelpSortMode(rawValue: sortBy)
+            let distanceFilter = filters?["Distance"] as! DistanceFilter
             cell.checkView.font = UIFont.fontAwesomeOfSize(30)
-            if isSortByExpanded {
-                switch indexPath.row {
-                case 0:
-                    cell.nameView.text = "Best Match"
-                    break
-                case 1:
-                    cell.nameView.text = "Distance"
-                    break
-                case 2:
-                    cell.nameView.text = "Highest Rate"
-                    break
-                default:break
-                }
-                cell.checkView.text = String.fontAwesomeIconWithCode(sortBy == indexPath.row ? "fa-check" : "fa-circle-o")
+            if isDistanceExpanded {
+                cell.nameView.text = distanceFilters[indexPath.row].text
+                cell.checkView.text = String.fontAwesomeIconWithName(distanceFilter.distance == distanceFilters[indexPath.row].distance ? FontAwesome.Check : FontAwesome.CircleO)
             } else {
-                cell.checkView.text = String.fontAwesomeIconWithCode("fa-angle-down")
-                switch sortByMode! {
-                case .BestMatched:
-                    cell.nameView.text = "Best Match"
-                    break
-                case .Distance:
-                    cell.nameView.text = "Distance"
-                    break
-                case .HighestRated:
-                    cell.nameView.text = "Highest Rate"
-                    break
-                }
+                cell.nameView.text = distanceFilter.text
+                cell.checkView.text = String.fontAwesomeIconWithName(FontAwesome.AngleDown)
             }
 
             return cell
@@ -175,9 +154,9 @@ extension FiltersViewController: UITableViewDataSource, UITableViewDelegate, Swi
                     break
                 default:break
                 }
-                cell.checkView.text = String.fontAwesomeIconWithCode(sortBy == indexPath.row ? "fa-check" : "fa-circle-o")
+                cell.checkView.text = String.fontAwesomeIconWithName(sortBy == indexPath.row ? FontAwesome.Check : FontAwesome.CircleO)
             } else {
-                cell.checkView.text = String.fontAwesomeIconWithCode("fa-angle-down")
+                cell.checkView.text = String.fontAwesomeIconWithName(FontAwesome.AngleDown)
                 switch sortByMode! {
                 case .BestMatched:
                     cell.nameView.text = "Best Match"
@@ -215,7 +194,7 @@ extension FiltersViewController: UITableViewDataSource, UITableViewDelegate, Swi
         case 0:break
         case 1:
             if isDistanceExpanded {
-                filters?["Distance"] = indexPath.row
+                filters?["Distance"] = distanceFilters[indexPath.row]
             }
             isDistanceExpanded = !isDistanceExpanded
             tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Automatic)

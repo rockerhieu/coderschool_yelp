@@ -78,8 +78,18 @@ class BusinessesViewController: UIViewController {
         let sortRawValue = filters?["Sort By"] as? Int
         let sort = YelpSortMode(rawValue: sortRawValue ?? 1)
         let deals = filters?["Offering a Deal"] as? Bool
+        let distance = filters?["Distance"] as? DistanceFilter
         Business.searchWithTerm(term, sort: sort, categories: selectedCategories, deals: deals) { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
+            self.businesses = businesses?.filter { business in
+                if let distanceFilter = distance {
+                    if distanceFilter.distance == 0 {
+                        return true
+                    }
+                    return business.distanceMeters?.doubleValue < distanceFilter.distanceInMeters
+                } else {
+                    return true
+                }
+            }
             self.tableView.reloadData()
             MBProgressHUD.hideHUDForView(self.view, animated: true)
         }
