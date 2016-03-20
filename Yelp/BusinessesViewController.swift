@@ -14,12 +14,14 @@ class BusinessesViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var businesses: [Business]?
     var searchController: UISearchController!
+    var filters: [String: AnyObject]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupTableView()
         setupSearchBar()
+        doSearch()
     }
     
     func setupSearchBar() {
@@ -51,6 +53,7 @@ class BusinessesViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         let filtersViewController = storyboard.instantiateViewControllerWithIdentifier("FilterVC") as! FiltersViewController
         filtersViewController.delegate = self
+        filtersViewController.filters = filters
         presentViewController(filtersViewController, animated: true, completion: nil)
     }
     
@@ -59,15 +62,24 @@ class BusinessesViewController: UIViewController {
         segue.sourceViewController.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func doSearch(sort: YelpSortMode?, categories: [String]?, deals: Bool?) {
+    func doSearch() {
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        Business.searchWithTerm(searchController.searchBar.text ?? "", sort: .Distance, categories: categories, deals: deals) { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
-            
-            for business in businesses {
-                print(business.name!)
-                print(business.address!)
+        let categories = filters?["Category"] as? Categories
+        var selectedCategories = [String]()
+        if let categoriesData = categories?.data {
+            for category in categoriesData {
+                if category.checked {
+                    selectedCategories.append(category.code)
+                }
             }
+        }
+        
+        let term = searchController.searchBar.text ?? ""
+        let sortRawValue = filters?["Sort By"] as? Int
+        let sort = YelpSortMode(rawValue: sortRawValue ?? 1)
+        let deals = filters?["Offering a Deal"] as? Bool
+        Business.searchWithTerm(term, sort: sort, categories: selectedCategories, deals: deals) { (businesses: [Business]!, error: NSError!) -> Void in
+            self.businesses = businesses
             self.tableView.reloadData()
             MBProgressHUD.hideHUDForView(self.view, animated: true)
         }
@@ -76,8 +88,8 @@ class BusinessesViewController: UIViewController {
 
 extension BusinessesViewController: FiltersViewControllerDelegate {
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
-        let categories = filters["categories"] as? [String]
-        doSearch(.Distance, categories: categories, deals: true)
+        self.filters = filters
+        doSearch()
     }
 }
 
@@ -95,7 +107,9 @@ extension BusinessesViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension BusinessesViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        doSearch(.Distance, categories: [], deals: true)
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        NSObject.cancelPreviousPerformRequestsWithTarget(self)
+        self.performSelector("doSearch", withObject:nil, afterDelay: 0.5)
     }
 }

@@ -183,8 +183,45 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" rowHeight="48" id="U6c-qz-xrD" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RadioCell" rowHeight="48" id="qd2-RC-DSP" userLabel="RadioCell" customClass="RadioCell" customModule="Yelp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qd2-RC-DSP" id="dPb-Rp-fp8">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="47.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="akU-EU-0zJ">
+                                                    <rect key="frame" x="8" y="14" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tfz-WX-rCc">
+                                                    <rect key="frame" x="376" y="9" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="Or3-X4-9Z6"/>
+                                                        <constraint firstAttribute="height" constant="30" id="wLj-XQ-efT"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="tfz-WX-rCc" secondAttribute="trailing" constant="8" id="5Ou-Jg-ocb"/>
+                                                <constraint firstItem="tfz-WX-rCc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="akU-EU-0zJ" secondAttribute="trailing" constant="8" id="7cM-4E-NKT"/>
+                                                <constraint firstItem="tfz-WX-rCc" firstAttribute="centerY" secondItem="dPb-Rp-fp8" secondAttribute="centerY" id="C1a-DK-UDb"/>
+                                                <constraint firstItem="akU-EU-0zJ" firstAttribute="leading" secondItem="dPb-Rp-fp8" secondAttribute="leading" constant="8" id="V9A-tF-qk9"/>
+                                                <constraint firstItem="akU-EU-0zJ" firstAttribute="centerY" secondItem="dPb-Rp-fp8" secondAttribute="centerY" id="lbR-ZO-ulr"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="checkView" destination="tfz-WX-rCc" id="WGf-QC-nvS"/>
+                                            <outlet property="nameView" destination="akU-EU-0zJ" id="QZ3-GZ-chF"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" rowHeight="48" id="U6c-qz-xrD" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="76" width="414" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U6c-qz-xrD" id="7gB-Xf-l8N">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="48"/>

@@ -8,17 +8,32 @@
 
 import Foundation
 
-enum FilterType: String {
-    case Offering = "Offering"
-    case Distance = "Distance"
-    case SortBy = "Sort By"
-    case Category = "Category"
+struct Category {
+    var name: String
+    var code: String
+    var checked: Bool
+    init(name: String, code: String, checked: Bool) {
+        self.name = name
+        self.code = code
+        self.checked = checked
+    }
 }
 
-struct NameValue {
-    var name:String
-    var value:AnyObject
+class Categories {
+    var data: [Category]
+    init(data: [Category]) {
+        self.data = data
+    }
 }
 
-class Filter {
+class DistanceFilter {
+    var distance: Double = 0.0 {
+        didSet {
+            if distance == 0 {
+                text = "Auto"
+            }
+            text =  "\(distance) miles"
+        }
+    }
+    var text: String!
 }

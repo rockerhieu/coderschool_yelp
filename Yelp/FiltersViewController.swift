@@ -7,83 +7,82 @@
 //
 
 import UIKit
+import FontAwesome_swift
 
 class FiltersViewController: UIViewController {
     weak var delegate: FiltersViewControllerDelegate?
     @IBOutlet weak var tableView: UITableView!
-    
-    var categories = [[String: String]]()
-    var switchStates = [Int:Bool]()
+
+    var filters: [String: AnyObject]?
+    var categories: Categories!
+    var isSortByExpanded = false
+    var isDistanceExpanded = false
 
     override func viewDidLoad() {
+        setupData()
         setupTableView()
     }
-    
+
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        categories = yelpCategories()
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.reloadData()
+    }
+    
+    func setupData() {
+        if let _ = filters {
+        } else {
+            filters = [String: AnyObject]()
+            let categories: [Category] = [
+                Category(name: "American (New)", code: "newamerican", checked: false),
+                Category(name: "American (Traditional)", code: "tradamerican", checked: false),
+                Category(name: "Argentine", code: "argentine", checked: false),
+                Category(name: "Asian Fusion", code: "asianfusion", checked: false),
+                Category(name: "Australian", code: "australian", checked: false),
+                Category(name: "Austrian", code: "austrian", checked: false),
+                Category(name: "Baguettes", code: "baguettes", checked: false),
+                Category(name: "Barbeque", code: "bbq", checked: false),
+                Category(name: "Basque", code: "basque", checked: false),
+                Category(name: "Beer Garden", code: "beergarden", checked: false),
+                Category(name: "Brazilian", code: "brazilian", checked: false),
+                Category(name: "British", code: "british", checked: false),
+                Category(name: "Buffets", code: "buffets", checked: false),
+                Category(name: "Burgers", code: "burgers", checked: false),
+                Category(name: "Burmese", code: "burmese", checked: false),
+                Category(name: "Cafes", code: "cafes", checked: false),
+                Category(name: "Cafeteria", code: "cafeteria", checked: false),
+                Category(name: "Cajun/Creole", code: "cajun", checked: false),
+                Category(name: "Cambodian", code: "cambodian", checked: false),
+                Category(name: "Caribbean", code: "caribbean", checked: false),
+                Category(name: "Catalan", code: "catalan", checked: false),
+                Category(name: "Cheesesteaks", code: "cheesesteaks", checked: false),
+                Category(name: "Chicken Shop", code: "chickenshop", checked: false),
+                Category(name: "Chicken Wings", code: "chicken_wings", checked: false),
+                Category(name: "Chinese", code: "chinese", checked: false),
+                Category(name: "Comfort Food", code: "comfortfood", checked: false),
+                Category(name: "Creperies", code: "creperies", checked: false),
+                Category(name: "Cuban", code: "cuban", checked: false),
+                Category(name: "Czech", code: "czech", checked: false),
+                Category(name: "Delis", code: "delis", checked: false),
+                Category(name: "Diners", code: "diners", checked: false),
+                Category(name: "Fast Food", code: "hotdogs", checked: false),
+                Category(name: "Food Court", code: "food_court", checked: false),
+                Category(name: "Food Stands", code: "foodstands", checked: false),
+                Category(name: "Vietnamese", code: "vietnamese", checked: false)
+            ]
+            filters?["Distance"] = 0
+            filters?["Category"] = Categories(data: categories)
+            filters?["Sort By"] = YelpSortMode.Distance.rawValue
+            filters?["Offering a Deal"] = false
+        }
+        categories = filters!["Category"] as! Categories
     }
 
     @IBAction func onSearchClicked(sender: AnyObject) {
-        // delegate?.onFilterChanged(filter)
-        var filters = [String: AnyObject]()
-        var selectedCategories = [String]()
-        for (row, on) in switchStates {
-            if on {
-                selectedCategories.append(categories[row]["alias"]!)
-            }
-        }
-        if (selectedCategories.count > 0) {
-            filters["categories"] = selectedCategories
-        }
-        delegate?.filtersViewController?(self, didUpdateFilters: filters)
+        delegate?.filtersViewController?(self, didUpdateFilters: filters!)
         dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-
-    func yelpCategories() -> [[String: String]] {
-        return [
-            [                "alias": "afghani",                "title": "Afghan"            ],
-            [                "alias": "african",                "title": "African"            ],
-            [                "title": "Andalusian",                "alias": "andalusian"            ],
-            [                "alias": "arabian",                "title": "Arabian"            ],
-            [                "alias": "argentine",                "title": "Argentine"            ],
-            [                "title": "Armenian",                "alias": "armenian"            ],
-            [                "alias": "asianfusion",                "title": "Asian Fusion"            ],
-            [                "title": "Asturian",                "alias": "asturian"            ],
-            [                "alias": "australian",                "title": "Australian"            ],
-            [                "alias": "austrian",                "title": "Austrian"            ],
-            [                "title": "Baguettes",                "alias": "baguettes"            ],
-            [                "alias": "bangladeshi",                "title": "Bangladeshi"            ],
-            [                "alias": "basque",                "title": "Basque"            ],
-            [                "title": "Bavarian",                "alias": "bavarian"            ],
-            [                "alias": "bbq",                "title": "Barbeque"            ],
-            [                "title": "Beer Garden",                "alias": "beergarden"            ],
-            [                "title": "Beer Hall",                "alias": "beerhall"            ],
-            [                "title": "Beisl",                "alias": "beisl"            ],
-            [                "alias": "belgian",                "title": "Belgian"            ],
-            [                "alias": "bistros",                "title": "Bistros"            ],
-            [                "title": "Black Sea",                "alias": "blacksea"            ],
-            [                "alias": "brasseries",                "title": "Brasseries"            ],
-            [                "alias": "brazilian",                "title": "Brazilian"            ],
-            [                "alias": "breakfast_brunch",                "title": "Breakfast & Brunch"            ],
-            [                "alias": "british",                "title": "British"            ],
-            [                "alias": "buffets",                "title": "Buffets"            ],
-            [                "alias": "bulgarian",                "title": "Bulgarian"            ],
-            [                "alias": "burgers",                 "title": "Burgers"            ],
-            [                "alias": "burmese",                 "title": "Burmese"            ],
-            [                "alias": "cafes",                 "title": "Cafes"            ],
-            [                "alias": "cafeteria",                 "title": "Cafeteria"            ],
-            [                "alias": "cajun",                 "title": "Cajun/Creole"            ],
-            [                "alias": "cambodian",                 "title": "Cambodian"            ],
-            [                "title": "Canteen",                "alias": "canteen"            ],
-            [                "alias": "caribbean",                 "title": "Caribbean"            ],
-            [                "title": "Catalan",                 "alias": "catalan"            ],
-            [                "title": "Cheesesteaks",                "alias": "cheesesteaks"            ],
-            [                "title": "Chicken Wings",                "alias": "chicken_wings"            ],
-            [                "alias": "chickenshop",                 "title": "Chicken Shop"            ]
-        ]
     }
 }
 
@@ -92,20 +91,144 @@ class FiltersViewController: UIViewController {
 }
 
 extension FiltersViewController: UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 4
+    }
+
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.categories.count
+        switch section {
+        case 0: return 1
+        case 1: return self.isDistanceExpanded ? 5 : 1
+        case 2: return self.isSortByExpanded ? 3 : 1
+        case 3: return categories.data.count
+        default: return 0
+        }
     }
     
+    func tableView(tableView: UITableView,
+        titleForHeaderInSection section: Int) -> String? {
+        if (section == 1) { return "Distance" }
+        if (section == 2) { return "Sort By" }
+        if (section == 3) { return "Category" }
+        return ""
+    }
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
-        cell.delegate = self
-        cell.nameView.text = categories[indexPath.row]["title"]
-        cell.valueView.on = switchStates[indexPath.row] ?? false
-        return cell
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
+            cell.data = (name: "Offering a Deal", value: filters?["Offering a Deal"] as! Bool)
+            cell.isOfferingADeal = true
+            cell.delegate = self
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCellWithIdentifier("RadioCell", forIndexPath: indexPath) as! RadioCell
+            let sortBy = filters?["Sort By"] as! Int
+            let sortByMode = YelpSortMode(rawValue: sortBy)
+            cell.checkView.font = UIFont.fontAwesomeOfSize(30)
+            if isSortByExpanded {
+                switch indexPath.row {
+                case 0:
+                    cell.nameView.text = "Best Match"
+                    break
+                case 1:
+                    cell.nameView.text = "Distance"
+                    break
+                case 2:
+                    cell.nameView.text = "Highest Rate"
+                    break
+                default:break
+                }
+                cell.checkView.text = String.fontAwesomeIconWithCode(sortBy == indexPath.row ? "fa-check" : "fa-circle-o")
+            } else {
+                cell.checkView.text = String.fontAwesomeIconWithCode("fa-angle-down")
+                switch sortByMode! {
+                case .BestMatched:
+                    cell.nameView.text = "Best Match"
+                    break
+                case .Distance:
+                    cell.nameView.text = "Distance"
+                    break
+                case .HighestRated:
+                    cell.nameView.text = "Highest Rate"
+                    break
+                }
+            }
+
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCellWithIdentifier("RadioCell", forIndexPath: indexPath) as! RadioCell
+            let sortBy = filters?["Sort By"] as! Int
+            let sortByMode = YelpSortMode(rawValue: sortBy)
+            cell.checkView.font = UIFont.fontAwesomeOfSize(30)
+            if isSortByExpanded {
+                switch indexPath.row {
+                case 0:
+                    cell.nameView.text = "Best Match"
+                    break
+                case 1:
+                    cell.nameView.text = "Distance"
+                    break
+                case 2:
+                    cell.nameView.text = "Highest Rate"
+                    break
+                default:break
+                }
+                cell.checkView.text = String.fontAwesomeIconWithCode(sortBy == indexPath.row ? "fa-check" : "fa-circle-o")
+            } else {
+                cell.checkView.text = String.fontAwesomeIconWithCode("fa-angle-down")
+                switch sortByMode! {
+                case .BestMatched:
+                    cell.nameView.text = "Best Match"
+                    break
+                case .Distance:
+                    cell.nameView.text = "Distance"
+                    break
+                case .HighestRated:
+                    cell.nameView.text = "Highest Rate"
+                    break
+                }
+            }
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
+            cell.isOfferingADeal = false
+            cell.delegate = self
+            let category = categories.data[indexPath.row]
+            cell.data = (name: category.name, value: category.checked)
+            return cell
+        }
     }
     
     func switchCell(cell: SwitchCell, didChangeValue value: Bool) {
-        let indexPath = tableView.indexPathForCell(cell)
-        switchStates[indexPath!.row] = value
+        if cell.isOfferingADeal {
+            filters?["Offering a Deal"] = value
+        } else {
+            let indexPath = tableView.indexPathForCell(cell)
+            categories.data[indexPath!.row].checked = value
+        }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch indexPath.section {
+        case 0:break
+        case 1:
+            if isDistanceExpanded {
+                filters?["Distance"] = indexPath.row
+            }
+            isDistanceExpanded = !isDistanceExpanded
+            tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Automatic)
+            break
+        case 2:
+            if isSortByExpanded {
+                filters?["Sort By"] = indexPath.row
+            }
+            isSortByExpanded = !isSortByExpanded
+            tableView.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Automatic)
+            break
+        case 3:break
+        default:break
+        }
     }
 }

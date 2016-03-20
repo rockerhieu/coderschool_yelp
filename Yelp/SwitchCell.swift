@@ -13,13 +13,15 @@ class SwitchCell: UITableViewCell {
     @IBOutlet weak var nameView: UILabel!
     @IBOutlet weak var valueView: UISwitch!
     weak var delegate: SwitchCellDelegate?
+    var isOfferingADeal = false
 
-    var data: NameValue! {
+    var data: (name: String, value: Bool)? {
         didSet {
-            nameView.text = data.name
-            valueView.on = data.value as! Bool
+            nameView.text = data?.name ?? ""
+            valueView.on = data?.value ?? false
         }
     }
+
     @IBAction func onValueChanged(sender: UISwitch) {
         delegate?.switchCell?(self, didChangeValue: sender.on)
     }
