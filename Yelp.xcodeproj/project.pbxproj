@@ -19,7 +19,7 @@
 		B82752F91C9EFE6A00285396 /* RadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82752F81C9EFE6A00285396 /* RadioCell.swift */; };
 		B8F969221C9E619B00A4E087 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F969211C9E619B00A4E087 /* BusinessCell.swift */; };
 		B8F969241C9E8A5200A4E087 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F969231C9E8A5200A4E087 /* FiltersViewController.swift */; };
-		B8F969261C9E925300A4E087 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F969251C9E925300A4E087 /* Filter.swift */; };
+		B8F969261C9E925300A4E087 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F969251C9E925300A4E087 /* Filters.swift */; };
 		B8F969281C9E9A3800A4E087 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F969271C9E9A3800A4E087 /* SwitchCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +51,7 @@
 		B82752F81C9EFE6A00285396 /* RadioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioCell.swift; sourceTree = "<group>"; };
 		B8F969211C9E619B00A4E087 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		B8F969231C9E8A5200A4E087 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
-		B8F969251C9E925300A4E087 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		B8F969251C9E925300A4E087 /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		B8F969271C9E9A3800A4E087 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		BBD540129B10DFE60E8C24E2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,7 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				22AAAA981AEA0A9700A544AF /* Business.swift */,
-				B8F969251C9E925300A4E087 /* Filter.swift */,
+				B8F969251C9E925300A4E087 /* Filters.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -344,7 +344,7 @@
 			files = (
 				B8F969241C9E8A5200A4E087 /* FiltersViewController.swift in Sources */,
 				B8F969221C9E619B00A4E087 /* BusinessCell.swift in Sources */,
-				B8F969261C9E925300A4E087 /* Filter.swift in Sources */,
+				B8F969261C9E925300A4E087 /* Filters.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
 				B82752F91C9EFE6A00285396 /* RadioCell.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
